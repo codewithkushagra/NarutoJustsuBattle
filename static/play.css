@@ -1,0 +1,79 @@
+@charset "utf-8";
+/* CSS Document */
+*{
+    padding: 0;
+    margin: 0;
+}
+
+html, body{
+    overflow:hidden;
+    height:100%;
+}
+.container{
+	display:block;
+	height: 100vh;
+    background: url("bg_play.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+.progress_bar{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+.healthContainer{
+	margin-top: 4vh;
+	width:35vw;
+	height: 5vh;
+	border-radius: 0.75vw;
+	
+}
+.player1{
+	margin-left:3vw;
+	border: white;
+	border-width: 0.4vw;
+	border-style: solid;
+}
+.player2{
+	margin-right: 3vw;
+	border:black;
+	border-width: 0.4vw;
+	border-style: solid;
+}
+.healthBar_1{
+	background: green;
+	height: 5vh;
+}
+.healthBar_2{
+	background: green;
+	height: 5vh;
+}
+.cam_screens{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+.cam{
+	 width: 40vw;
+	height: 70vh;
+	border: solid;
+	margin:3vw;
+}
+.cam_screens img{
+	width: inherit;
+	height:inherit;
+}
+.justsu{ 
+	font-size: 60px;
+	color:red;
+	font-weight: bold;
+}
+@media only screen and (max-width:768px){
+
+    .container{ 
+		display:hidden;
+	}
+
+}

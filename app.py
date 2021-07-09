@@ -81,6 +81,10 @@ def index():
 def video():
     return Response(generate_frames(),mimetype='multipart/x-mixed-replace; boundary=frame')
 
+@app.route("/play")
+def play():
+    return render_template('play.html')
+
 @app.route("/handSign")
 def handSign():
     global handsign

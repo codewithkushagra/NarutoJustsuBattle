@@ -1,0 +1,85 @@
+@charset "utf-8";
+/* CSS Document */
+@import url('https://fonts.googleapis.com/css2?family=Odibee+Sans&display=swap');
+@import url("Evil/stylesheet.css");
+
+*{
+    padding: 0;
+    margin: 0;
+}
+
+html, body{
+    overflow:hidden;
+    height:100%;
+}
+.menu{
+	display: flex;
+	flex-direction: column;
+	align-self: center;
+	align-items: center;
+	height: 80vh;
+	justify-content: space-evenly;
+}
+.menuButton{
+	border-style: outset;
+	border-color:#8C7373;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+	font-size: 3vw;
+/*	text-shadow: 0px .4vw 3px black;*/
+	box-shadow: 0.2vw .4vw 3px black;
+	color: #F8F4EC;
+	font-family: 'evil_empireregular';
+	font-weight: 300;
+	font-style: normal;
+	width: 20vw;
+	height: 6vw;
+	border-radius: 1vw;
+	background-color:#FDA287;
+	text-decoration: none;
+}
+.menuButton:hover{
+	background-color: #C70039;
+}
+.menuButton a:link,a:visited{
+	text-decoration: none;
+	color: #F8F4EC;
+}
+
+.container{
+    height:100%;
+    background: url("bg_image.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+.glow {
+    font-size: 6vw;
+    color: #fff;
+    text-align: center;
+    animation: glow 1s ease-in-out infinite alternate;
+    z-index: 100;
+  }
+  
+  @-webkit-keyframes glow {
+    from {
+      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+    }
+    
+    to {
+      text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+    }
+  }
+.maintext{
+    display:flex;
+	flex-direction: column;
+	justify-content: center;
+    color:rgb(0, 0, 0);
+    font-size:2vw;
+    text-align:center;
+	height: 20vh;
+    
+}

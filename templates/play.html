@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Play</title>
+<!--<link rel="stylesheet" href="play.css">-->
+<link rel="stylesheet" href="{{ url_for('static', filename= 'play.css') }}">
+</head>
+
+<body>
+	<div class="container">
+		
+		<div class="progress_bar">	
+			<div class="healthContainer player1">
+				<div class="healthBar_1" style="width:0%"></div>
+			</div>
+			<div class="healthContainer player2">
+				<div class="healthBar_2" style="width:0%"></div>
+			</div>
+		</div>
+		
+		<div class="cam_screens">
+			<div class="cam cam_player1"><img src="{{ url_for('video') }}"></div>
+			<div class="cam cam_player2"><img src="{{ url_for('video') }}"></div>
+		</div>
+		<div class="justsu" id="justsu"></div>
+	</div>
+
+	<script>
+    var sign=document.getElementById('justsu');
+    var temp;
+
+    function update()
+    {
+
+
+        fetch('/handSign')
+        .then(function (response) {
+            return response.json();
+        }).then(function (text) {
+            sign.innerHTML=text.handsign
+            console.log(text.handsign); 
+        });
+
+        
+        // sign.innerHTML="{{handsign}}"
+        // console.log("{{handsign}}")
+    }
+    setInterval(update,500)
+</script>
+</body>
+</html>

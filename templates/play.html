@@ -27,11 +27,17 @@
 			<div class="cam cam_player2"><img src="{{ url_for('video') }}"></div>
 		</div>
 		<div style="display:flex;flex-direction:column;">
-			<div class="justsu" id="justsu"></div>
+			<div class="justsu" id="justsu">
+				<div class="img1" id="img1"></div>
+				<div class="img2"></div>
+				
+			</div>
 		</div>
 	</div>
 
 	<script>
+	 //string for hamdsign and emoji
+	 
 	var jutsulist={
 		//fist==string terminator
 		//After termination>> pause for one second >> start again (clear list)
@@ -58,7 +64,7 @@
 		},
 
 	}
-    var sign=document.getElementById('justsu');
+    var sign=document.getElementById('img1');
 	health=100
 	state={
 		yo:0,
@@ -98,13 +104,14 @@
 	{
 		for (const k of signset.values()) 
 		{
-			jutsumade=jutsumade+" "+k
+			jutsumade=jutsumade+" "+k;
+			var imag="{{url_for('static',filename='Emojis')}}";
+			sign.innerHTML=`<img src="${imag}/${k}.png" height='65px'>`;
+			
 		}
 
 		console.log(jutsumade)
-		sign.innerHTML=jutsumade
-
-		// if match is seccuss then chakra -- and health ---
+		
 
 
 		for(const jutsuname in jutsulist)
@@ -115,8 +122,7 @@
 				updateHealth(damage);
 				sendtobackend(jutsuname)
 				signset.clear()
-				sign.innerHTML=""
-				//health update
+				
 			}
 		}
 
@@ -156,7 +162,6 @@
 		  }, 500);
 	}
     setInterval(update,100)
-	// setInterval(updateheath,10000)
 </script>
 </body>
 </html>

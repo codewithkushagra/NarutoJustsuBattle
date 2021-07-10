@@ -1,16 +1,18 @@
-from flask import Flask,jsonify, render_template, Response
+from flask import Flask,jsonify, render_template, Response,request
 import cv2 as cv
 import numpy as np
 import HandTrackingModule as htm
 import mediapipe as mp
-
+import json
 
 app = Flask(__name__)
 
 mp_drawing=mp.solutions.drawing_utils
 mp_hands= mp.solutions.hands
 
-handsign="open"
+handsign="no move"
+currentjutsu="none"
+
 
 def generate_frames():
     cap=cv.VideoCapture(0)
@@ -27,7 +29,6 @@ def generate_frames():
         image = detector.findHands(image)
 
         lmList0=[]
-        lmList1=[]
         
         #getting hand one landmarks
         try:
@@ -35,35 +36,33 @@ def generate_frames():
         except:
             pass
 
-        #getting hand two landmarks
-        try:
-            lmList1 = detector.findPosition(image,draw=False,handNo=1)
-        except:
-            pass
         
         
         if len(lmList0) != 0:
             global handsign
             # print(f"hand 1: {lmList0}",end="\n\n\n")
-            if lmList0[12][2]>lmList0[11][2] and lmList0[16][2]>lmList0[15][2] and lmList0[4][1]<lmList0[5][1] and lmList0[7][2]>lmList0[8][2] and lmList0[19][2]>lmList0[20][2]:
-                handsign="yo"
-            elif lmList0[12][2]>lmList0[11][2] and lmList0[16][2]>lmList0[15][2] and lmList0[4][1]<lmList0[5][1] and lmList0[7][2]<lmList0[8][2] and lmList0[19][2]>lmList0[20][2]:
-                handsign="thulu"
-            elif lmList0[12][2]>lmList0[11][2] and lmList0[16][2]>lmList0[15][2] and lmList0[4][1]<lmList0[5][1] and lmList0[7][2]>lmList0[8][2] and lmList0[19][2]<lmList0[20][2]:
-                handsign="L"
-            elif lmList0[12][2]>lmList0[11][2] and lmList0[16][2]<lmList0[15][2] and lmList0[4][1]<lmList0[5][1] and lmList0[7][2]>lmList0[8][2] and lmList0[19][2]>lmList0[20][2]:
-                handsign="MidDown"
-            elif lmList0[12][2]<lmList0[11][2] and lmList0[16][2]>lmList0[15][2] and lmList0[4][1]<lmList0[5][1] and lmList0[7][2]>lmList0[8][2] and lmList0[19][2]>lmList0[20][2]:
-                handsign="MidcloseDown"
-            elif lmList0[12][2]>lmList0[11][2] and lmList0[4][1]>lmList0[5][1] and lmList0[16][2]>lmList0[15][2] and lmList0[7][2]<lmList0[8][2] and lmList0[19][2]<lmList0[20][2]:
-                handsign="fist"
-            elif lmList0[12][2]<lmList0[11][2] and lmList0[16][2]>lmList0[15][2] and lmList0[4][1]<lmList0[5][1] and lmList0[7][2]>lmList0[8][2] and lmList0[19][2]<lmList0[20][2]:
-                handsign="LL"
-            else:
-                handsign="open"
-        # if len(lmList1) != 0:
-        #     print(f"hand 2: {lmList1}",end="\n\n\n")
-
+            global currentjutsu
+            if currentjutsu=="none":
+                if lmList0[12][2]>lmList0[11][2] and lmList0[16][2]>lmList0[15][2] and lmList0[4][1]<lmList0[5][1] and lmList0[7][2]>lmList0[8][2] and lmList0[19][2]>lmList0[20][2]:
+                    handsign="yo"
+                elif lmList0[12][2]>lmList0[11][2] and lmList0[16][2]>lmList0[15][2] and lmList0[4][1]<lmList0[5][1] and lmList0[7][2]<lmList0[8][2] and lmList0[19][2]>lmList0[20][2]:
+                    handsign="thulu"
+                elif lmList0[12][2]>lmList0[11][2] and lmList0[16][2]>lmList0[15][2] and lmList0[4][1]<lmList0[5][1] and lmList0[7][2]>lmList0[8][2] and lmList0[19][2]<lmList0[20][2]:
+                    handsign="L"
+                elif lmList0[12][2]<lmList0[11][2] and lmList0[16][2]<lmList0[15][2] and lmList0[4][1]<lmList0[5][1] and lmList0[7][2]>lmList0[8][2] and lmList0[19][2]>lmList0[20][2]:
+                    handsign="open"
+                elif lmList0[12][2]>lmList0[11][2] and lmList0[16][2]<lmList0[15][2] and lmList0[4][1]<lmList0[5][1] and lmList0[7][2]>lmList0[8][2] and lmList0[19][2]>lmList0[20][2]:
+                    handsign="MidDown"
+                elif lmList0[12][2]<lmList0[11][2] and lmList0[16][2]>lmList0[15][2] and lmList0[4][1]<lmList0[5][1] and lmList0[7][2]>lmList0[8][2] and lmList0[19][2]>lmList0[20][2]:
+                    handsign="MidcloseDown"
+                elif lmList0[12][2]>lmList0[11][2] and lmList0[4][1]>lmList0[5][1] and lmList0[16][2]>lmList0[15][2] and lmList0[7][2]<lmList0[8][2] and lmList0[19][2]<lmList0[20][2]:
+                    handsign="fist"
+                elif lmList0[12][2]<lmList0[11][2] and lmList0[16][2]>lmList0[15][2] and lmList0[4][1]<lmList0[5][1] and lmList0[7][2]>lmList0[8][2] and lmList0[19][2]<lmList0[20][2]:
+                    handsign="LL"
+                else:
+                    handsign="no move"
+        
+        
         if not success:
             break
         else:
@@ -77,13 +76,32 @@ def generate_frames():
 def index():
     return render_template('index.html')
 
+
 @app.route("/video")
 def video():
     return Response(generate_frames(),mimetype='multipart/x-mixed-replace; boundary=frame')
 
+
 @app.route("/play")
 def play():
     return render_template('play.html')
+
+
+@app.route("/jutsumade",methods=["GET", "POST"])
+def jutsumade():
+    global currentjutsu
+    global handsign
+    if request.method=='POST':
+        currentjutsu=request.data
+        currentjutsu=currentjutsu.decode('ASCII')
+        currentjutsu=json.loads(currentjutsu)
+        currentjutsu=currentjutsu['jutsu']
+    
+    handsign="no move"
+    message = {'jutsuname':f'{currentjutsu}'}
+    
+    return jsonify(message)     
+
 
 @app.route("/handSign")
 def handSign():

@@ -28,16 +28,36 @@
 		</div>
 		<div style="display:flex;flex-direction:column;">
 			<div class="justsu" id="justsu"></div>
-			<div class="justsu" id="justsu"></div>
-			<div class="justsu" id="justsu"></div>
-			<div class="justsu" id="justsu"></div>
-			<div class="justsu" id="justsu"></div>
 		</div>
 	</div>
 
 	<script>
-	
+	var jutsulist={
+		gateofdeath:{
+			moves: ' L yo MidDown',
+			healthdamage: 30
+		},
+		firebon:{
+			moves: ' thulu yo',
+			healthdamage: 5
+		},
+		susanoo:{
+			moves: ' MidcloseDown yo LL',
+			healthdamage: 10
+		},
+		amaterasu:{
+			moves: ' L MidDwon fist MidcloseDown LL',
+			healthdamage: 30
+		},
+		Rasighan:{
+			moves: ' yo MidDown thulu fist open',
+			healthdamage: 30
+		},
+
+	}
     var sign=document.getElementById('justsu');
+	chakra=100
+	health=100
 	state={
 		yo:0,
 		thulu:0,
@@ -45,32 +65,68 @@
 		MidcloseDown: 0,
 		L: 0,
 		fist: 0,
-		LL: 0
+		LL: 0,
+		open:0
 	};
 	var signset = new Set();
 	jutsumade=""
+
+
+
+	function sendtobackend(jutsumade){
+		fetch('/jutsumade',{
+			method: 'POST',
+			headers: {
+				'content-type': 'application/json'
+			},
+			body:JSON.stringify({ 
+				jutsu: jutsumade
+			})
+		})
+		.then(response =>{
+			return response.json()
+			})
+		.then(data =>console.log(data))
+
+	}
+
+
+
 	function check(signset) 
 	{
 		for (const k of signset.values()) 
 		{
 			jutsumade=jutsumade+" "+k
 		}
+
 		console.log(jutsumade)
-		if(jutsumade==" L LL")
+		sign.innerHTML=jutsumade
+
+		// if match is seccuss then chakra -- and health ---
+
+
+		for(const jutsuname in jutsulist)
 		{
-			sign.innerHTML="Jutsu Made"
+			if(jutsulist[jutsuname]['moves']==jutsumade)
+			{
+				sendtobackend(jutsuname)
+				signset.clear()
+				sign.innerHTML=""
+			}
 		}
+
 		jutsumade=""
 	}
 
 
     function update()
     {
+		
         fetch('/handSign')
         .then(function (response) {
             return response.json();
         }).then(function (text) {
-			if (text.handsign!="open")
+			if (text.handsign!="no move")
 			{
 				state[text.handsign]++;
 				if(state[text.handsign]>6)
@@ -85,6 +141,7 @@
         });
     }
     setInterval(update,100)
+	// setInterval(updateheath,10000)
 </script>
 </body>
 </html>

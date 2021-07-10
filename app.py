@@ -24,25 +24,28 @@ def generate_frames():
     
     
         image =cv.flip(frame, 1)
-    
-
-        image = detector.findHands(image)
-
-        lmList0=[]
         
-        #getting hand one landmarks
-        try:
-            lmList0 = detector.findPosition(image,draw=False)
-        except:
-            pass
+        global currentjutsu
+        
+        if currentjutsu=="none":
 
+            image = detector.findHands(image)
         
-        
-        if len(lmList0) != 0:
-            global handsign
-            # print(f"hand 1: {lmList0}",end="\n\n\n")
-            global currentjutsu
-            if currentjutsu=="none":
+
+            lmList0=[]
+            
+            #getting hand one landmarks
+            try:
+                lmList0 = detector.findPosition(image,draw=False)
+            except:
+                pass
+
+            
+            
+            if len(lmList0) != 0:
+                global handsign
+                # print(f"hand 1: {lmList0}",end="\n\n\n")
+                
                 if lmList0[12][2]>lmList0[11][2] and lmList0[16][2]>lmList0[15][2] and lmList0[4][1]<lmList0[5][1] and lmList0[7][2]>lmList0[8][2] and lmList0[19][2]>lmList0[20][2]:
                     handsign="yo"
                 elif lmList0[12][2]>lmList0[11][2] and lmList0[16][2]>lmList0[15][2] and lmList0[4][1]<lmList0[5][1] and lmList0[7][2]<lmList0[8][2] and lmList0[19][2]>lmList0[20][2]:
@@ -61,8 +64,13 @@ def generate_frames():
                     handsign="LL"
                 else:
                     handsign="no move"
-        
-        
+
+        else:
+            if currentjutsu=="gateofdeath":
+                image[:,:,1],image[:,:,0]=0,0
+            elif currentjutsu=="amaterasu":
+                image, dst_color = cv.pencilSketch(image, sigma_s=60, sigma_r=0.07, shade_factor=0.05)
+       
         if not success:
             break
         else:

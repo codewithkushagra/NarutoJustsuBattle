@@ -36,6 +36,7 @@
 	</div>
 
 	<script>
+	
     var sign=document.getElementById('justsu');
 	state={
 		yo:0,
@@ -47,7 +48,21 @@
 		LL: 0
 	};
 	var signset = new Set();
-    var temp;
+	jutsumade=""
+	function check(signset) 
+	{
+		for (const k of signset.values()) 
+		{
+			jutsumade=jutsumade+" "+k
+		}
+		console.log(jutsumade)
+		if(jutsumade==" L LL")
+		{
+			sign.innerHTML="Jutsu Made"
+		}
+		jutsumade=""
+	}
+
 
     function update()
     {
@@ -61,13 +76,12 @@
 				if(state[text.handsign]>6)
 				{
 					state[text.handsign]=0;
-					sign.innerHTML=text.handsign
 					signset.add(text.handsign)
-
+					check(signset)
 				}				
 			}
-            console.log(signset);
-			console.log(state); 
+            // console.log(signset);
+			// console.log(state); 
         });
     }
     setInterval(update,100)

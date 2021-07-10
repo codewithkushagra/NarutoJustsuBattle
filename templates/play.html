@@ -32,6 +32,7 @@
 	</div>
 
 	<script>
+		jutsuperform=0;
 	var jutsulist={
 		//fist==string terminator
 		//After termination>> pause for one second >> start again (clear list)
@@ -48,7 +49,7 @@
 			healthdamage: 20
 		},
 		amaterasu:{
-			moves: ' L MidDwon yo MidcloseDown LL',
+			moves: ' L MidDown yo MidcloseDown LL',
 			healthdamage: 30
 		},
 		Rasighan:{
@@ -101,19 +102,20 @@
 			jutsumade=jutsumade+" "+k
 		}
 
-		console.log(jutsumade)
+		
 		sign.innerHTML=jutsumade
 
 		// if match is seccuss then chakra -- and health ---
 
 
 		for(const jutsuname in jutsulist)
-		{
+		{	console.log(jutsumade)
 			if(jutsulist[jutsuname]['moves']==jutsumade)
 			{
 				var damage=jutsulist[jutsuname]['healthdamage'];
 				updateHealth(damage);
 				sendtobackend(jutsuname)
+				jutsuperform=1
 				signset.clear()
 				sign.innerHTML=""
 				//health update
@@ -126,24 +128,31 @@
 
     function update()
     {
-		
-        fetch('/handSign')
-        .then(function (response) {
-            return response.json();
-        }).then(function (text) {
-			if (text.handsign!="no move")
-			{
-				state[text.handsign]++;
-				if(state[text.handsign]>6)
+		if (jutsuperform==0)
+		{	
+			fetch('/handSign')
+			.then(function (response) {
+				return response.json();
+			}).then(function (text) {
+				if (text.handsign!="no move" && text.handsign!="fist")
 				{
-					state[text.handsign]=0;
-					signset.add(text.handsign)
-					check(signset)
-				}				
-			}
-            // console.log(signset);
-			// console.log(state); 
-        });
+					state[text.handsign]++;
+					if(state[text.handsign]>6)
+					{
+						state[text.handsign]=0;
+						signset.add(text.handsign)
+						check(signset)
+					}				
+				}
+				else if(text.handsign=="fist"){
+					signset.clear()
+					setTimeout(function(){},2000)
+					sign.innerHTML=""
+				}
+				// console.log(signset);
+				// console.log(state); 
+			});
+	}
     }
 	function updateHealth(damage){
 		var healthBar=document.getElementById("healthBar_2");

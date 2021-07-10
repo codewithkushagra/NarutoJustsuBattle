@@ -43,10 +43,12 @@ html, body{
 	border-style: solid;
 }
 .healthBar_1{
+	transition: 0.5s;
 	background: green;
 	height: 5vh;
 }
 .healthBar_2{
+	transition: 0.5s;
 	background: green;
 	height: 5vh;
 }

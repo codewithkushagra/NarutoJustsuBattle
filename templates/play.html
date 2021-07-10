@@ -15,10 +15,10 @@
 		
 		<div class="progress_bar">	
 			<div class="healthContainer player1">
-				<div class="healthBar_1" style="width:0%"></div>
+				<div class="healthBar_1" id="healthBar_1" style="width:100%;background:green"></div>
 			</div>
 			<div class="healthContainer player2">
-				<div class="healthBar_2" style="width:0%"></div>
+				<div class="healthBar_2" id="healthBar_2" style="width:100%;background:green"></div>
 			</div>
 		</div>
 		
@@ -33,9 +33,11 @@
 
 	<script>
 	var jutsulist={
+		//fist==string terminator
+		//After termination>> pause for one second >> start again (clear list)
 		gateofdeath:{
 			moves: ' L yo MidDown',
-			healthdamage: 30
+			healthdamage: 20
 		},
 		firebon:{
 			moves: ' thulu yo',
@@ -43,20 +45,20 @@
 		},
 		susanoo:{
 			moves: ' MidcloseDown yo LL',
-			healthdamage: 10
+			healthdamage: 20
 		},
 		amaterasu:{
-			moves: ' L MidDwon fist MidcloseDown LL',
+			moves: ' L MidDwon yo MidcloseDown LL',
 			healthdamage: 30
 		},
 		Rasighan:{
-			moves: ' yo MidDown thulu fist open',
+			moves: ' yo MidDown thulu L open',
 			healthdamage: 30
+		//TODO healer and healthbar ,border implementation (groove), emojis instead of sign name.
 		},
 
 	}
     var sign=document.getElementById('justsu');
-	chakra=100
 	health=100
 	state={
 		yo:0,
@@ -109,9 +111,12 @@
 		{
 			if(jutsulist[jutsuname]['moves']==jutsumade)
 			{
+				var damage=jutsulist[jutsuname]['healthdamage'];
+				updateHealth(damage);
 				sendtobackend(jutsuname)
 				signset.clear()
 				sign.innerHTML=""
+				//health update
 			}
 		}
 
@@ -140,6 +145,16 @@
 			// console.log(state); 
         });
     }
+	function updateHealth(damage){
+		var healthBar=document.getElementById("healthBar_2");
+		var leftHealth=parseFloat(healthBar.style.width)-damage;
+		console.log(leftHealth);
+		healthBar.style.width=leftHealth+"%";
+		healthBar.style.background="red";
+		setTimeout(function() {
+			healthBar.style.background="green";
+		  }, 500);
+	}
     setInterval(update,100)
 	// setInterval(updateheath,10000)
 </script>

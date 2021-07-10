@@ -83,3 +83,12 @@ html, body{
 	height: 20vh;
     
 }
+@media screen and (max-width:740px){
+.menuButton{ 
+	font-size: 15vw;
+	width:80vw;
+	height:15vh;
+}
+.glow{ font-size: 20vw;}
+
+}

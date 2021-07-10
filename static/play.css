@@ -70,10 +70,34 @@ html, body{
 	color:red;
 	font-weight: bold;
 }
-@media only screen and (max-width:768px){
+.notsupported{ 
+	font-size:50px;
+	color:whitesmoke;
+	display:none;
+	text-align: center;
+	padding:10px;
+	height:100vh;
+	text-decoration: none;
+}
+.notsupported a:link, a:visited{
+	text-decoration:none;
+	color:whitesmoke;
+}
+.notsupported a:hover{
+	color:#C70039;
+}
+@media only screen and (max-width:750px){
 
     .container{ 
-		display:hidden;
+		display:none;
+	}
+	.notsupported{
+		background: url("bg_image.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+		display:block;
 	}
 
 }

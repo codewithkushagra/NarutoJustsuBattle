@@ -45,17 +45,17 @@ def generate_frames():
         if len(lmList0) != 0:
             global handsign
             # print(f"hand 1: {lmList0}",end="\n\n\n")
-            if lmList0[12][2]>lmList0[11][2] and lmList0[16][2]>lmList0[15][2] and lmList0[4][1]>lmList0[5][1] and lmList0[7][2]>lmList0[8][2] and lmList0[19][2]>lmList0[20][2]:
+            if lmList0[12][2]>lmList0[11][2] and lmList0[16][2]>lmList0[15][2] and lmList0[4][1]<lmList0[5][1] and lmList0[7][2]>lmList0[8][2] and lmList0[19][2]>lmList0[20][2]:
                 handsign="yo"
             elif lmList0[12][2]>lmList0[11][2] and lmList0[16][2]>lmList0[15][2] and lmList0[4][1]<lmList0[5][1] and lmList0[7][2]<lmList0[8][2] and lmList0[19][2]>lmList0[20][2]:
                 handsign="thulu"
             elif lmList0[12][2]>lmList0[11][2] and lmList0[16][2]>lmList0[15][2] and lmList0[4][1]<lmList0[5][1] and lmList0[7][2]>lmList0[8][2] and lmList0[19][2]<lmList0[20][2]:
                 handsign="L"
             elif lmList0[12][2]>lmList0[11][2] and lmList0[16][2]<lmList0[15][2] and lmList0[4][1]<lmList0[5][1] and lmList0[7][2]>lmList0[8][2] and lmList0[19][2]>lmList0[20][2]:
-                handsign="Mid-Down"
+                handsign="MidDown"
             elif lmList0[12][2]<lmList0[11][2] and lmList0[16][2]>lmList0[15][2] and lmList0[4][1]<lmList0[5][1] and lmList0[7][2]>lmList0[8][2] and lmList0[19][2]>lmList0[20][2]:
-                handsign="Mid-close-Down"
-            elif lmList0[12][2]>lmList0[11][2] and lmList0[16][2]>lmList0[15][2] and lmList0[7][2]<lmList0[8][2] and lmList0[19][2]<lmList0[20][2]:
+                handsign="MidcloseDown"
+            elif lmList0[12][2]>lmList0[11][2] and lmList0[4][1]>lmList0[5][1] and lmList0[16][2]>lmList0[15][2] and lmList0[7][2]<lmList0[8][2] and lmList0[19][2]<lmList0[20][2]:
                 handsign="fist"
             elif lmList0[12][2]<lmList0[11][2] and lmList0[16][2]>lmList0[15][2] and lmList0[4][1]<lmList0[5][1] and lmList0[7][2]>lmList0[8][2] and lmList0[19][2]<lmList0[20][2]:
                 handsign="LL"

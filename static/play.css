@@ -44,7 +44,6 @@ html, body{
 }
 .healthBar_1{
 	transition: 0.5s;
-	background: green;
 	height: 5vh;
 }
 .healthBar_2{
@@ -61,16 +60,21 @@ html, body{
 	 width: 40vw;
 	height: 70vh;
 	border: solid;
-	margin:3vw;
+	margin-inline:3vw;
+	margin-top:3vw;
+	margin-bottom: 1vw;
 }
 .cam_screens img{
 	width: inherit;
 	height:inherit;
 }
 .justsu{ 
-	font-size: 60px;
-	color:red;
-	font-weight: bold;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+.img1{ 
+	margin-left: 10vw;
 }
 .notsupported{ 
 	font-size:50px;

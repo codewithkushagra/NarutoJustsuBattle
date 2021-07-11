@@ -72,6 +72,8 @@ def generate_frames(videoindex):
 
 
         else:
+            handsign="no move"
+            currentjutsu="none"
             if currentjutsu=="firebon":
                 image[:,:,1],image[:,:,0]=0,0
             elif currentjutsu=="amaterasu":
@@ -103,7 +105,9 @@ def video0():
 @app.route("/play")
 def play():
     return render_template('play.html')
-
+@app.route("/simulator")
+def simulate():
+    return render_template('simulator.html')
 
 @app.route("/jutsumade",methods=["GET", "POST"])
 def jutsumade():

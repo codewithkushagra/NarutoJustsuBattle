@@ -12,7 +12,7 @@
 	<div class="notsupported">Sorry! Not supported for mobile browsers :( 
 		Try changing to landscape view.<br><br><br><a href="{{ url_for('index')}}">Go back to Home Page</a></div>
 	<div class="container">
-		
+		<p id="gameover">GAME OVER</p>
 		<div class="progress_bar">	
 			<div class="healthContainer player1">
 				<div class="healthBar_1" id="healthBar_1" style="width:100%;background:green"></div>
@@ -23,6 +23,7 @@
 		</div>
 		
 		<div class="cam_screens">
+			<div class="gif" id="gif"></div>
 			<div class="cam cam_player1" id="cam1"><img src="{{ url_for('video') }}"></div>
 			<div class="cam cam_player2" id="cam2"><img src="{{ url_for('video0') }}"></div>
 		</div>
@@ -39,31 +40,34 @@
 		jutsuperform=0;
 	 //string for hamdsign and emoji
 	 
-
-	var jutsulist={
-		//fist==string terminator
-		//After termination>> pause for one second >> start again (clear list)
+	 var jutsulist={
 		gateofdeath:{
 			moves: ' L yo MidDown',
-			healthdamage: 20
+			healthdamage: 20,
+			time:3000
 		},
 		firebon:{
 			moves: ' thulu yo',
-			healthdamage: 5
+			healthdamage: 5,
+			time:2500
 		},
 		susanoo:{
 			moves: ' MidcloseDown yo LL',
-			healthdamage: 20
+			healthdamage: 20,
+			time:5000
 		},
 		amaterasu:{
 			moves: ' L MidDown yo MidcloseDown LL',
-			healthdamage: 30
+			healthdamage: 30,
+			time:5000
 		},
 		rasighan:{
 			moves: ' yo MidDown thulu L open',
-			healthdamage: 30
-		//TODO healer and healthbar ,border implementation (groove), emojis instead of sign name.
+			healthdamage: 30,
+			time:5000
+		//TODO healer
 		},
+ 
 
 	}
     var sign=document.getElementById('img1');
@@ -111,27 +115,38 @@
 			sign.innerHTML=`<img src="${imag}/${k}.png" height='65px'>`;
 			
 		}
-
-
-		// if match is seccuss then chakra -- and health ---
-		console.log(jutsumade)
+	// if match is seccuss then chakra -- and health ---
+	console.log(jutsumade)
 		
 
 
-		for(const jutsuname in jutsulist)
-		{	console.log(jutsumade)
-			if(jutsulist[jutsuname]['moves']==jutsumade)
-			{
-				var damage=jutsulist[jutsuname]['healthdamage'];
+	for(const jutsuname in jutsulist)
+   {	console.log(jutsumade)
+	   if(jutsulist[jutsuname]['moves']==jutsumade)
+	   {
+		sendtobackend(jutsuname)
+			var damage=jutsulist[jutsuname]['healthdamage'];
+		   var gifimage="{{url_for('static',filename='jutsugif')}}"
+		   sign.innerHTML=""
+		   jutsuperform=1
+		   document.getElementById("gif").innerHTML=`<img src="${gifimage}/${jutsuname}.gif"  style="height:70vh;width:40vw">`;
+		   document.getElementById("gif").style.display="block";
+		   document.getElementById("cam1").style.display="none";
+		   setTimeout(function(){
+				document.getElementById("gif").style.display="none";
+				document.getElementById("cam1").style.display="block";
 				updateHealth(damage);
-				sendtobackend(jutsuname)
-				jutsuperform=1
-				signset.clear()
-				
-			}
-		}
-
-		jutsumade=""
+			
+		   },jutsulist[jutsuname]['time']);
+		   
+		   signset.clear()
+		   setTimeout(function(){},2000)
+			
+		   console.log(signset);
+		   jutsuperform=0;
+		   }
+	   }
+			jutsumade=""
 	}
 
 
@@ -163,9 +178,18 @@
 			});
 	}
     }
+	function gameOver(){
+		document.getElementById("gameover").style.display="block";
+	}
 	function updateHealth(damage){
 		var healthBar=document.getElementById("healthBar_2");
 		var leftHealth=parseFloat(healthBar.style.width)-damage;
+		if(leftHealth<=0){
+			leftHealth=0;
+		}
+		if(leftHealth==0){
+			gameOver();
+		}
 		console.log(leftHealth);
 		healthBar.style.width=leftHealth+"%";
 		healthBar.style.background="red";

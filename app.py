@@ -32,7 +32,7 @@ def generate_frames(videoindex):
         global handsign
         
         if currentjutsu=="none":
-            if videoindex==0:
+            if videoindex==2:
                 image = detector.findHands(image)
 
 
@@ -93,12 +93,12 @@ def index():
 
 @app.route("/video")
 def video():
-    return Response(generate_frames(0),mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(generate_frames(2),mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 @app.route("/video0")
 def video0():
-    return Response(generate_frames(2),mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(generate_frames(0),mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route("/play")
 def play():

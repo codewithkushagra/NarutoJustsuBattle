@@ -1,0 +1,172 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Simulator</title>
+<link rel="stylesheet" href="{{ url_for('static', filename= 'simulator.css') }}">
+</head>
+
+<body>
+	<div class="container">
+		
+		<div class="simuTitle">
+			<h1>Simulator</h1>
+		</div>
+		<div class="cam_screens">
+			<div class="gif" id="gif"></div>
+			<div class="cam cam_player1" id="cam1"><img src="{{ url_for('video') }}"></div>
+		</div>
+		<div style="display:flex;flex-direction:column;">
+			<div class="justsu" id="justsu">
+				
+				<div class="img1" id="img1"></div>
+				
+			</div>
+		</div>
+	</div>
+
+<script>
+	jutsuperform=0;
+	//string for hamdsign and emoji
+	
+   var jutsulist={
+	   gateofdeath:{
+		   moves: ' L yo MidDown',
+		   healthdamage: 20,
+		   time:3000
+	   },
+	   firebon:{
+		   moves: ' thulu yo',
+		   healthdamage: 5,
+		   time:2500
+	   },
+	   susanoo:{
+		   moves: ' MidcloseDown yo LL',
+		   healthdamage: 20,
+		   time:5000
+	   },
+	   amaterasu:{
+		   moves: ' L MidDown yo MidcloseDown LL',
+		   healthdamage: 30,
+		   time:5000
+	   },
+	   rasighan:{
+		   moves: ' yo MidDown thulu L open',
+		   healthdamage: 30,
+		   time:5000
+	   //TODO healer
+	   },
+
+   }
+   var sign=document.getElementById('img1');
+   health=100
+   state={
+	   yo:0,
+	   thulu:0,
+	   MidDown: 0,
+	   MidcloseDown: 0,
+	   L: 0,
+	   fist: 0,
+	   LL: 0,
+	   open:0
+   };
+   var signset = new Set();
+   jutsumade=""
+
+
+
+   function sendtobackend(jutsumade){
+	   fetch('/jutsumade',{
+		   method: 'POST',
+		   headers: {
+			   'content-type': 'application/json'
+		   },
+		   body:JSON.stringify({ 
+			   jutsu: jutsumade
+		   })
+	   })
+	   .then(response =>{
+		   return response.json()
+		   })
+	   .then(data =>console.log(data))
+
+   }
+
+
+
+   function check(signset) 
+   {
+	   for (const k of signset.values()) 
+	   {
+		   jutsumade=jutsumade+" "+k;
+		   var imag="{{url_for('static',filename='Emojis')}}";
+		   sign.innerHTML=`<img src="${imag}/${k}.png" height='65px'>`;
+		   
+	   }
+   // if match is seccuss then chakra -- and health ---
+   console.log(jutsumade)
+	   
+
+
+   for(const jutsuname in jutsulist)
+   {	console.log(jutsumade)
+	   if(jutsulist[jutsuname]['moves']==jutsumade)
+	   {
+		sendtobackend(jutsuname)
+			
+		   var gifimage="{{url_for('static',filename='jutsugif')}}"
+		   sign.innerHTML=""
+		   jutsuperform=1
+		   document.getElementById("gif").innerHTML=`<img src="${gifimage}/${jutsuname}.gif"  style="height:70vh;width:40vw">`;
+		   document.getElementById("gif").style.display="block";
+		   document.getElementById("cam1").style.display="none";
+		   setTimeout(function(){
+				document.getElementById("gif").style.display="none";
+				document.getElementById("cam1").style.display="block";
+			
+		   },jutsulist[jutsuname]['time']);
+		   
+		   signset.clear()
+		   setTimeout(function(){},2000)
+			
+		   console.log(signset);
+		   jutsuperform=0;
+		   }
+	   }
+	   
+	   jutsumade=""
+   }
+
+
+   function update()
+   {
+	   if (jutsuperform==0)
+	   {	
+		   fetch('/handSign')
+		   .then(function (response) {
+			   return response.json();
+		   }).then(function (text) {
+			   if (text.handsign!="no move" && text.handsign!="fist")
+			   {
+				   state[text.handsign]++;
+				   if(state[text.handsign]>6)
+				   {
+					   state[text.handsign]=0;
+					   signset.add(text.handsign)
+					   check(signset)
+				   }				
+			   }
+			   else if(text.handsign=="fist"){
+				   signset.clear()
+				   setTimeout(function(){},2000)
+				   sign.innerHTML=""
+			   }
+			   // console.log(signset);
+			   // console.log(state); 
+		   });
+   }
+   }
+   setInterval(update,100)
+</script>
+</body>
+</html>

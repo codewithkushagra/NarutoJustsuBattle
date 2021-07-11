@@ -1,3 +1,64 @@
 @charset "utf-8";
 /* CSS Document */
+@import url("Evil/stylesheet.css");
+*{
+    padding: 0;
+    margin: 0;
+}
 
+html, body{
+    overflow:hidden;
+    height:100%;
+}
+.container{
+	display:block;
+	height: 100vh;
+    background: url("bg_play.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+.cam_screens{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+.cam{
+	display:block;
+	 width: 40vw;
+	height: 70vh;
+	border: solid;
+	margin-inline:3vw;
+	margin-top:3vw;
+	margin-bottom: 1vw;
+}
+.cam_screens img{
+	width: inherit;
+	height:inherit;
+}
+.justsu{ 
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+.img1{ 
+	margin-left: 10vw;
+}
+.gif{ 
+	width: 40vw;
+	height: 70vh;
+	border: solid;
+	margin-inline:3vw;
+	margin-top:3vw;
+	margin-bottom: 1vw;
+	display:none;
+}
+.simuTitle{ 
+    font-family: 'evil_empireregular';
+	font-weight: 100;
+	font-style: normal;
+    text-align: center;
+    font-size:2.5vw;
+    color: rgb(139, 134, 134);
+}

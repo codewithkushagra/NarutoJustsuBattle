@@ -23,8 +23,8 @@
 		</div>
 		
 		<div class="cam_screens">
-			<div class="cam cam_player1"><img src="{{ url_for('video') }}"></div>
-			<div class="cam cam_player2"><img src="{{ url_for('video') }}"></div>
+			<div class="cam cam_player1" id="cam1"><img src="{{ url_for('video') }}"></div>
+			<div class="cam cam_player2" id="cam2"><img src="{{ url_for('video0') }}"></div>
 		</div>
 		<div style="display:flex;flex-direction:column;">
 			<div class="justsu" id="justsu">
@@ -59,7 +59,7 @@
 			moves: ' L MidDown yo MidcloseDown LL',
 			healthdamage: 30
 		},
-		Rasighan:{
+		rasighan:{
 			moves: ' yo MidDown thulu L open',
 			healthdamage: 30
 		//TODO healer and healthbar ,border implementation (groove), emojis instead of sign name.
